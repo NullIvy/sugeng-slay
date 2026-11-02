@@ -1,5 +1,4 @@
 autoload -Uz compinit && compinit -C
-autoload -Uz compinit && compinit -C
 # ---------- fzf-tab: Tab jadi menu interaktif + preview ----------
 source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
 zstyle ':completion:*' menu no
