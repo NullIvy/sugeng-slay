@@ -1,0 +1,54 @@
+format = """
+[╭─](#4B4580)[\ue0b6](#A99CFF)$os$username[\ue0b0](bg:#4B4580 fg:#A99CFF)$directory[\ue0b0](bg:#5EEAF2 fg:#4B4580)$git_branch$git_status[\ue0b0](fg:#5EEAF2)
+[╰─](#4B4580)$character"""
+right_format = """$cmd_duration$status$time"""
+
+[os]
+disabled = false
+style = "bg:#A99CFF fg:#0B0A14"
+format = "[ $symbol]($style)"
+[os.symbols]
+Macos = "\uf179"
+
+[username]
+show_always = true
+style_user = "bg:#A99CFF fg:#0B0A14 bold"
+style_root = "bg:#FF4D6D fg:#0B0A14 bold"
+format = "[ $user ]($style)"
+
+[directory]
+style = "bg:#4B4580 fg:#E9E6FF"
+format = "[ \uf07c $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = "\ue725"
+style = "bg:#5EEAF2 fg:#0B0A14"
+format = "[ $symbol $branch ]($style)"
+
+[git_status]
+style = "bg:#5EEAF2 fg:#0B0A14"
+format = "[($all_status$ahead_behind )]($style)"
+
+[cmd_duration]
+min_time = 2000
+style = "fg:#F2C46D"
+format = "[\uf252 $duration ]($style)"
+
+[status]
+disabled = false
+success_symbol = "\uf00c"
+symbol = "\uf00d $status"
+style = "fg:#FF4D6D"
+format = "[$symbol ]($style)"
+
+[time]
+disabled = false
+time_format = "%H:%M"
+style = "fg:#A99CFF"
+format = "[\uf017 $time]($style)"
+
+[character]
+success_symbol = "[❯](bold #5EEAF2)"
+error_symbol = "[❯](bold #FF4D6D)"

@@ -1,0 +1,47 @@
+font-family = JetBrainsMono Nerd Font
+font-size = 14
+
+background = 0b0a14
+foreground = d6d3f5
+cursor-color = 5eeaf2
+cursor-style = bar
+selection-background = 4b4580
+selection-foreground = ffffff
+
+palette = 0=#1a1830
+palette = 1=#ff4d6d
+palette = 2=#7df9c8
+palette = 3=#f2c46d
+palette = 4=#8b7cff
+palette = 5=#c792ea
+palette = 6=#5eeaf2
+palette = 7=#d6d3f5
+palette = 8=#4b4580
+palette = 9=#ff7a91
+palette = 10=#a6ffdc
+palette = 11=#f7d896
+palette = 12=#a99cff
+palette = 13=#dcb3f2
+palette = 14=#94f3f8
+palette = 15=#ffffff
+
+background-opacity = 0.92
+background-blur = 20
+window-padding-x = 16
+window-padding-y = 12
+window-width = 132
+window-height = 34
+macos-titlebar-style = tabs
+window-save-state = always
+confirm-close-surface = false
+
+background-image = __HOME__/.config/fastfetch/logo-cyber.png
+background-image-opacity = 0.12
+background-image-position = center
+background-image-fit = contain
+background-image-repeat = false
+auto-update = download
+
+custom-shader = __HOME__/.config/ghostty/eq.glsl
+custom-shader-animation = always
+shell-integration-features = no-title

@@ -1,0 +1,50 @@
+# ===================== CYBERDECK =====================
+export EZA_COLORS="di=1;38;2;169;156;255:ex=38;2;94;234;242:ln=38;2;199;146;234:da=38;2;75;69;128"
+alias ls='eza --icons --group-directories-first'
+alias ll='eza -la --icons --git --group-directories-first --time-style=relative'
+alias tree='eza --tree --icons --level=2 --git-ignore'
+
+eval "$(zoxide init zsh)"
+source <(fzf --zsh)
+eval "$(starship init zsh)"
+
+cyberboot() {
+  local c=$'\e[38;2;94;234;242m' p=$'\e[38;2;169;156;255m' d=$'\e[38;2;75;69;128m' r=$'\e[0m'
+  local full="▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮" empty="▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯" i
+  print -P ""
+  printf "  ${d}[${p} CYBERDECK v0.2 ${d}//${c} ADMIN ACCESS GRANTED ${d}]${r}\n"
+  for i in {1..24}; do
+    printf "\r  ${d}SCANNING SYSTEM ${c}%s${d}%s ${p}%3d%%${r}" "${full[1,i]}" "${empty[1,24-i]}" $((i*100/24))
+    sleep 0.008
+  done
+  printf "\n"
+}
+fetch() { [[ $TERM_PROGRAM == Apple_Terminal ]] || cyberboot; if [[ $TERM_PROGRAM == Apple_Terminal ]]; then print; print; fastfetch -c __HOME__/.config/fastfetch/config.jsonc --logo macos --logo-type builtin --logo-padding-top 2 --logo-padding-left 4 --logo-padding-right 6 --logo-color-1 "38;2;94;234;242" --logo-color-2 "38;2;94;234;242" --logo-color-3 "38;2;169;156;255" --logo-color-4 "38;2;169;156;255" --logo-color-5 "38;2;255;77;109" --logo-color-6 "38;2;255;77;109"; else printf "\e[2A"; fastfetch -c __HOME__/.config/fastfetch/config.jsonc; fi; }
+alias clear='command clear && fetch'
+
+source ~/.config/zsh/smart.zsh
+source "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#4B4580'
+source "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+ZSH_HIGHLIGHT_STYLES[command]='fg=#5EEAF2,bold'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=#5EEAF2,bold'
+ZSH_HIGHLIGHT_STYLES[alias]='fg=#5EEAF2,bold'
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#FF4D6D'
+ZSH_HIGHLIGHT_STYLES[path]='fg=#A99CFF,underline'
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=#F2C46D'
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=#F2C46D'
+
+# =====================================================
+
+# ============ CYBERDECK CLI COLORS ============
+[[ -f "/opt/homebrew/etc/grc.zsh" ]] && source "/opt/homebrew/etc/grc.zsh"
+unalias ping nslookup 2>/dev/null
+ping()     { script -q /dev/null /sbin/ping "$@" | perl ~/.config/zsh/ping.pl }
+nslookup() { command nslookup "$@" 2>&1 | perl ~/.config/zsh/nslookup.pl }
+export BAT_THEME="ansi"
+alias cat='bat --paging=never --style=numbers,changes'
+# ==============================================
+source ~/.config/zsh/cyberdeck-cli.zsh
+source ~/.config/zsh/audio.zsh
+source ~/.config/zsh/np.zsh
+[[ -o interactive ]] && fetch

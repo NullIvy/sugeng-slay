@@ -1,0 +1,19 @@
+[general]
+framerate = 30
+bars = 120
+sensitivity = 120
+
+[input]
+method = portaudio
+source = "BlackHole 2ch"
+
+[output]
+method = raw
+raw_target = /dev/stdout
+data_format = ascii
+ascii_max_range = 8
+bar_delimiter = 59
+frame_delimiter = 10
+
+[smoothing]
+noise_reduction = 77
