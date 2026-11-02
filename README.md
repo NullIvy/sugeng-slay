@@ -88,4 +88,4 @@ Hampir semua bagian Sugeng Slay bisa dimodifikasi seperti skin dan loadout di ga
 
 Proyek ini awalnya cuma iseng karena bosan melihat terminal yang itu itu saja, tapi ternyata berakhir menjadi sesi ngoprek sampai lewat tengah malam dengan banyak trial and error di setiap langkahnya. Kalau kamu menemukan bug atau punya ide untuk membuatnya lebih keren, silakan buka issue atau kirim pull request, karena party yang lengkap selalu lebih seru daripada solo queue. Semua tools yang dipakai di sini adalah proyek open source luar biasa, jadi kredit sepenuhnya untuk para pembuat Ghostty, Fastfetch, Starship, eza, zoxide, fzf, fzf-tab, bat, delta, btop, cava, BlackHole, media-control, dan semua plugin zsh yang ikut membuat terminal ini slay.
 
-Digarap di antara jam satu dan tiga pagi dengan secangkir kopi oleh Rizki. Matur nuwun, bestie. GG and have fun.
+Digarap di antara jam satu dan tiga pagi dengan secangkir kopi oleh NullIvy. Matur nuwun, bestie. GG and have fun.
