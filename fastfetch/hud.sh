@@ -63,7 +63,7 @@ case $1 in
   temp)
     v=$(zsh ~/.config/fastfetch/temp.sh 2>/dev/null | perl -ne 'print $1 if /(\d+)(?:\.\d+)?\s*°C/'); 
     [[ -z $v ]] && { printf '%s–%s' "$D" "$X"; exit; }
-    k=$G; lab='Cool'; (( v >= 50 )) && { k=$N; lab='Normal'; }; (( v >= 60 )) && { k=$N; lab='Warm'; }; (( v >= 70 )) && { k=$Y; lab='⚠ HOT'; }; (( v >= 80 )) && { k=$R; lab='⚠ OVERHEAT'; }
+    k=$G; lab='Cool'; (( v >= 50 )) && { k=$N; lab='Normal'; }; (( v >= 60 )) && { k=$N; lab='Warm'; }; (( v >= 75 )) && { k=$Y; lab='⚠ HOT'; }; (( v >= 85 )) && { k=$R; lab='⚠ OVERHEAT'; }
     f=$(( (v - 30) / 7 )); (( f < 0 )) && f=0; (( f > 6 )) && f=6; e=$(( 6 - f ))
     printf '%s%s%s%s  %s%d°C %s· %s%s%s' "$k" "${(l:$f::━:)}" "$D" "${(l:$e::─:)}" "$k" "$v" "$D" "$k" "$lab" "$X" ;;
   procs)
@@ -117,7 +117,7 @@ case $1 in
   hudbar)
     al=(); m=$(zsh $0 mode)
     route -n get default >/dev/null 2>&1 && on="${G}● ONLINE" || { on="${R}● OFFLINE"; al+=NET; }
-    t=$(zsh ~/.config/fastfetch/temp.sh 2>/dev/null | perl -ne 'print $1 if /(\d+)(?:\.\d+)?\s*°C/'); (( ${t:-0} >= 80 )) && al+=OVERHEAT
+    t=$(zsh ~/.config/fastfetch/temp.sh 2>/dev/null | perl -ne 'print $1 if /(\d+)(?:\.\d+)?\s*°C/'); (( ${t:-0} >= 85 )) && al+=OVERHEAT
     b=$(pmset -g batt | grep -oE '[0-9]+%' | tr -d %); pmset -g batt | grep -q discharging && (( ${b:-100} < 20 )) && al+=LOW-HP
     r=$(memory_pressure 2>/dev/null | awk '/free percentage/{print 100-$NF}' | tr -d %); (( ${r:-0} >= 90 )) && al+=MEM-CRIT
     np=$(media-control get 2>/dev/null | jq -r 'select(.playing == true) | "\(.title) — \(.artist)"' 2>/dev/null)
@@ -161,10 +161,10 @@ case $1 in
     IFS=, read -r _ _ _ _ pg pn <<< "$l"
     col() { (( $1 < 0 )) && print $R || { (( $1 < $2 )) && print $G || { (( $1 < $3 )) && print $Y || print $R; }; }; }
     fm() { (( $1 < 0 )) && print 'timeout' || print "${1}ms"; }
-    s=$(tail -n 10 ~/.cache/slay-metrics.csv | awk -F, 'BEGIN{split("▁ ▂ ▃ ▄ ▅ ▆ ▇ █",b," ")} {v=$6; if(v<0)v=300; i=int(v/40)+1; if(i>8)i=8; s=s b[i]} END{print s}')
+    s=$(tail -n 10 ~/.cache/slay-metrics.csv | awk -F, 'BEGIN{split("· ∙ • ●",b," ")} {v=$6; if(v<0)v=999; i=(v<30)?1:(v<80)?2:(v<150)?3:4; s=s b[i]} END{print s}')
     printf '%sgw %s%s %s· %snet %s%s %s%s%s' "$D" "$(col $pg 10 50)" "$(fm $pg)" "$D" "$D" "$(col $pn 60 150)" "$(fm $pn)" "$D" "$s" "$X" ;;
   ai)
-    f=~/.cache/slay-claude.json; [[ -s $f ]] || { printf '%s✳ belum ada sesi Claude%s' "$D" "$X"; exit; }
+    f=~/.cache/slay-claude.json; [[ -s $f ]] || { printf '%s✳ %sstandby %s· ketik %sclaude%s untuk mulai%s' "$P" "$V" "$D" "$C" "$D" "$X"; exit; }
     now=$(date +%s); h5=$(jq -r '.h5 // empty' $f); h5r=$(jq -r '.h5r // 0' $f); d7=$(jq -r '.d7 // empty' $f); d7r=$(jq -r '.d7r // 0' $f)
     (( h5r && h5r < now )) && h5=0; (( d7r && d7r < now )) && d7=0
     mb() { local p=${1%.*}; p=${p:-0}; local k=$G; (( p >= 60 )) && k=$Y; (( p >= 85 )) && k=$R; local f=$(( (p + 10) / 20 )); local e=$(( 5 - f )); printf '%s%s%s%s %s%d%%' "$k" "${(l:$f::▰:)}" "$D" "${(l:$e::▱:)}" "$k" "$p"; }
@@ -173,7 +173,7 @@ case $1 in
   mission)
     c=~/.cache/slay-mission
     if [[ ! -s $c ]] || (( $(date +%s) - $(stat -f %m $c) > 300 )); then
-      ( ev=''; command -v icalBuddy >/dev/null && ev=$(icalBuddy -b "" -n -nc -nrd -ea -li 1 -iep "title,datetime" -po "datetime,title" -ps "| |" -df "" -tf "%H:%M" eventsToday+1 2>/dev/null | head -1 | sed 's/ - [0-9:]*//; s/^ *//')
+      ( ev=''; command -v icalBuddy >/dev/null && ev=$(icalBuddy -n -nc -nrd -ea -li 1 -iep "title,datetime" -po "datetime,title" -ps "| |" -df "" -tf "%H:%M" eventsToday+1 2>/dev/null | head -1 | sed 's/ - [0-9:]*//; s/^ *//')
         rm=$(osascript -e 'tell application "Reminders" to count (reminders whose completed is false)' 2>/dev/null)
         print -r -- "${ev}|${rm}" > $c.tmp && mv $c.tmp $c ) &!
     fi
@@ -182,7 +182,7 @@ case $1 in
     command -v icalBuddy >/dev/null || ev='brew install ical-buddy'
     printf '%s◷ %s%s %s· %s☑ %s todo%s' "$C" "$V" "${ev:-no meetings ahead}" "$D" "$Y" "${rm:-0}" "$X" ;;
   project)
-    git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { printf '%s%s %s· bukan repo Git%s' "$V" "${PWD/#$HOME/~}" "$D" "$X"; exit; }
+    git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { printf '%s○ %sidle %s· cd ke repo Git untuk melihat status%s' "$D" "$V" "$D" "$X"; exit; }
     br=$(git branch --show-current); ch=$(git status --porcelain | wc -l | tr -d ' ')
     ab=$(git rev-list --left-right --count @{u}...HEAD 2>/dev/null); bh=${ab%%[[:space:]]*}; ah=${ab##*[[:space:]]}
     lm=$(git log -1 --format='%s' 2>/dev/null); (( ${#lm} > 16 )) && lm="${lm[1,15]}…"; lt=$(git log -1 --format='%cr' 2>/dev/null | sed 's/ ago//; s/ hours\{0,1\}/h/; s/ minutes\{0,1\}/m/; s/ days\{0,1\}/d/')

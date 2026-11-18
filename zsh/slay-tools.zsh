@@ -106,7 +106,7 @@ fastfetch() {
   [[ $m == work ]] && print '💼' > ~/.cache/slay-icon || print '🎮' > ~/.cache/slay-icon
   if [[ $m == work ]]; then
     _slay_worklogo
-    command fastfetch --logo-type file-raw --logo ~/.cache/slay-worklogo.txt --logo-width 34 --logo-height 40 --logo-padding-top 3 --logo-padding-left 22 --logo-padding-right 25 "$@"
+    command fastfetch --logo-type file-raw --logo ~/.cache/slay-worklogo.txt --logo-width 34 --logo-height 40 --logo-padding-top 3 --logo-padding-left 22 --logo-padding-right 27 "$@"
   else command fastfetch "$@"; fi
   printf '\e]2;%s %s\a' "$(< ~/.cache/slay-icon)" "${PWD/#$HOME/~}"
 }
