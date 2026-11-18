@@ -1,7 +1,7 @@
 # >>> sugeng-slay tools v2.2
 fastfetch() {
   if [[ $(zsh ~/.config/fastfetch/hud.sh mode) == work ]]; then
-    command fastfetch --logo-type builtin --logo macos --logo-color-1 '38;2;169;156;255' --logo-color-2 '38;2;169;156;255' \
+    command fastfetch --logo-type builtin --logo macos --logo-padding-top 15 --logo-padding-left 10 --logo-color-1 '38;2;169;156;255' --logo-color-2 '38;2;169;156;255' \
       --logo-color-3 '38;2;94;234;242' --logo-color-4 '38;2;94;234;242' --logo-color-5 '38;2;255;121;198' --logo-color-6 '38;2;255;121;198' "$@"
   else command fastfetch "$@"; fi
 }
@@ -50,7 +50,7 @@ fastfetch() {
   local m=$(zsh ~/.config/fastfetch/hud.sh mode); mkdir -p ~/.cache
   [[ $m == work ]] && print '💼' > ~/.cache/slay-icon || print '🎮' > ~/.cache/slay-icon
   if [[ $m == work ]]; then
-    command fastfetch --logo-type builtin --logo macos --logo-color-1 '38;2;169;156;255' --logo-color-2 '38;2;169;156;255' \
+    command fastfetch --logo-type builtin --logo macos --logo-padding-top 15 --logo-padding-left 10 --logo-color-1 '38;2;169;156;255' --logo-color-2 '38;2;169;156;255' \
       --logo-color-3 '38;2;94;234;242' --logo-color-4 '38;2;94;234;242' --logo-color-5 '38;2;255;121;198' --logo-color-6 '38;2;255;121;198' "$@"
   else command fastfetch "$@"; fi
   printf '\e]2;%s %s\a' "$(< ~/.cache/slay-icon)" "${PWD/#$HOME/~}"
@@ -63,3 +63,51 @@ brew() {
   else command brew "$@"; fi
 }
 # <<< sugeng-slay brew bar
+# >>> sugeng-slay work panel v3.1
+_slay_worklogo() {
+  local E=$'\e'
+  local L="${E}[38;2;169;156;255m" C="${E}[38;2;94;234;242m" P="${E}[38;2;255;121;198m" D="${E}[38;2;110;100;160m" V="${E}[38;2;214;211;245m" Y="${E}[38;2;242;196;109m" B="${E}[1m" X="${E}[0m"
+  local f=~/.cache/slay-worklogo.txt d=$(date +%-d) i=0 l
+  local -a apple=(
+'                    c.'"'"
+'                 ,xNMM.'
+'               .OMMMMo'
+'               lMM"'
+'     .;loddo:.  .olloddol;.'
+'   cKMMMMMMMMMMNWMMMMMMMMMM0:'
+' .KMMMMMMMMMMMMMMMMMMMMMMMWd.'
+' XMMMMMMMMMMMMMMMMMMMMMMMX.'
+';MMMMMMMMMMMMMMMMMMMMMMMM:'
+':MMMMMMMMMMMMMMMMMMMMMMMM:'
+'.MMMMMMMMMMMMMMMMMMMMMMMMX.'
+' kMMMMMMMMMMMMMMMMMMMMMMMMWd.'
+' .XMMMMMMMMMMMMMMMMMMMMMMMMMMk'
+'  .XMMMMMMMMMMMMMMMMMMMMMMMMK.'
+'    kMMMMMMMMMMMMMMMMMMMMMMd'
+'     ;KMMMMMMMWXXWMMMMMMMk.'
+'       .cooc,.    .,coo:.')
+  {
+    for l in $apple; do (( i++ )); (( i <= 4 )) && print -r -- "${L}${l}${X}" || { (( i <= 11 )) && print -r -- "${C}${l}${X}" || print -r -- "${P}${l}${X}"; }; done
+    print ""
+    print -r -- "${B}${L}  ◆ $(LC_ALL=en_US.UTF-8 date '+%A · %d %B %Y' | tr a-z A-Z)${X}"
+    print -r -- "${D}  ──────────────────────────────${X}"
+    LC_ALL=en_US.UTF-8 cal | sed '/^ *$/d' | perl -pe 'BEGIN{$d=shift} if($.==1){$_="\e[1;38;2;169;156;255m     $_"} elsif($.==2){$_="\e[38;2;110;100;160m     $_"} else {s/(?<!\d)$d(?!\d)/\e[1;7;38;2;94;234;242m$d\e[27;22;38;2;214;211;245m/; $_="\e[38;2;214;211;245m     $_"} s/\n/\e[0m\n/' $d
+    print ""
+    print -r -- "${B}${C}  ◷ TODAY'S AGENDA${X}"
+    local ev=""; command -v icalBuddy >/dev/null && ev=$(icalBuddy -b "" -nc -nrd -ea -iep "title,datetime" -po "datetime,title" -ps "|  |" -tf "%H:%M" -df "" eventsToday 2>/dev/null | sed 's/ - [0-9:]*//; s/^ *//' | head -4)
+    if [[ -n $ev ]]; then print -r -- "$ev" | while IFS= read -r l; do (( ${#l} > 30 )) && l="${l[1,29]}…"; print -r -- "${V}    ${Y}▸${V} ${l}${X}"; done
+    else print -r -- "${D}    ✓ no meetings today${X}"; fi
+    local rm=$(cut -d'|' -f2 ~/.cache/slay-mission 2>/dev/null)
+    print -r -- "${V}    ${Y}☑${V} ${rm:-0} reminders open${X}"
+  } > $f
+}
+fastfetch() {
+  local m=$(zsh ~/.config/fastfetch/hud.sh mode); mkdir -p ~/.cache
+  [[ $m == work ]] && print '💼' > ~/.cache/slay-icon || print '🎮' > ~/.cache/slay-icon
+  if [[ $m == work ]]; then
+    _slay_worklogo
+    command fastfetch --logo-type file-raw --logo ~/.cache/slay-worklogo.txt --logo-width 34 --logo-height 40 --logo-padding-top 3 --logo-padding-left 22 --logo-padding-right 25 "$@"
+  else command fastfetch "$@"; fi
+  printf '\e]2;%s %s\a' "$(< ~/.cache/slay-icon)" "${PWD/#$HOME/~}"
+}
+# <<< sugeng-slay work panel v3.1
