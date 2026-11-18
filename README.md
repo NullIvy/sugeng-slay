@@ -40,37 +40,14 @@ Prinsip yang saya pegang tetap sama dengan versi Windows, yaitu informasi harus 
 
 ## Instalasi
 
-Pertama, pasang semua tools yang dibutuhkan lewat Homebrew.
-
-```bash
-brew install fastfetch starship eza zoxide fzf bat git-delta duf btop tlrc grc cava jq ical-buddy gh
-brew install zsh-autosuggestions zsh-syntax-highlighting zsh-you-should-use thefuck
-brew install --cask ghostty font-jetbrains-mono-nerd-font blackhole-2ch
-brew tap ungive/media-control && brew install media-control
-curl -fsSL https://claude.ai/install.sh | bash
-```
-
-Selanjutnya, clone repo ini lalu salin semua konfigurasi ke tempatnya. Baris terakhir mengganti penanda lokasi folder dengan folder home milikmu.
+Pastikan Homebrew sudah terpasang, lalu clone repo ini dan jalankan installer. Sertakan path gambar karakter favoritmu supaya mode play langsung punya foto. Tanpa gambar, dashboard otomatis memakai mode work.
 
 ```bash
 git clone https://github.com/NullIvy/sugeng-slay.git && cd sugeng-slay
-mkdir -p ~/.config/{ghostty,fastfetch,zsh,cava,btop/themes} ~/.claude
-cp ghostty/* ~/.config/ghostty/ && cp fastfetch/* ~/.config/fastfetch/ && cp zsh/* ~/.config/zsh/
-cp starship/starship.toml ~/.config/ && cp cava/* ~/.config/cava/ && cp btop/* ~/.config/btop/themes/
-cp claude/statusline.sh ~/.claude/ && cat zsh/zshrc.cyberdeck >> ~/.zshrc
-grep -rl "__HOME__" ~/.config ~/.claude ~/.zshrc 2>/dev/null | xargs sed -i '' "s|__HOME__|$HOME|g"
-cp ~/.config/fastfetch/config-compact.jsonc ~/.config/fastfetch/config.jsonc && touch ~/.hushlogin
+./install.sh ~/Pictures/karakter.jpg
 ```
 
-Gambar karakter sengaja tidak disertakan di repo ini. Pilih gambar favoritmu, ubah menjadi duotone lavender, lalu potong menjadi potret setinggi panel.
-
-```bash
-sips -s format png --matchTo '/System/Library/ColorSync/Profiles/Generic Gray Profile.icc' gambar.jpg --out ~/.config/fastfetch/logo-bw.png
-osascript -l JavaScript ~/.config/fastfetch/duotone.js ~/.config/fastfetch/logo-bw.png ~/.config/fastfetch/logo-cyber.png 200 185 255
-cd ~/.config/fastfetch && H=$(sips -g pixelHeight logo-cyber.png | awk '/pixelHeight/{print $2}') && sips --cropToHeightWidth $H $((H*76/88)) logo-cyber.png --out logo-tall.png
-```
-
-Terakhir, berikan Full Disk Access untuk Ghostty di System Settings, izinkan Calendar dan Reminders saat diminta, lalu tutup Ghostty dengan Cmd Q dan buka kembali.
+Installer memasang semua dependensi, membackup konfigurasi lama, menyalin dotfiles, mengatur zsh dan statusline Claude Code, serta memasang sampler background. Setelah selesai, beri Full Disk Access untuk Ghostty di System Settings, izinkan Calendar dan Reminders saat diminta, lalu tutup Ghostty dengan Cmd Q dan buka kembali.
 
 ## Cara Pakai
 
