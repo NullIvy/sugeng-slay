@@ -1,0 +1,30 @@
+ObjC.import('CoreImage'); ObjC.import('AppKit');
+function run(argv) {
+  const [src, dst, Ws, Hs] = argv; const W = Number(Ws), H = Number(Hs), A = 0.10;
+  const ns = $.NSImage.alloc.initWithContentsOfFile(src);
+  if (!ns || ns.isNil()) throw 'Gagal membaca ' + src;
+  let img = $.CIImage.imageWithData(ns.TIFFRepresentation), f;
+  f = $.CIFilter.filterWithName('CIColorMonochrome');
+  f.setValueForKey(img, 'inputImage');
+  f.setValueForKey($.CIColor.colorWithRedGreenBlue(200/255, 185/255, 1), 'inputColor');
+  f.setValueForKey($.NSNumber.numberWithDouble(1.0), 'inputIntensity'); img = f.outputImage;
+  const s = Math.min(W / img.extent.size.width, H / img.extent.size.height) * 0.7;
+  f = $.CIFilter.filterWithName('CILanczosScaleTransform');
+  f.setValueForKey(img, 'inputImage');
+  f.setValueForKey($.NSNumber.numberWithDouble(s), 'inputScale');
+  f.setValueForKey($.NSNumber.numberWithDouble(1.0), 'inputAspectRatio'); img = f.outputImage;
+  const t = $.NSAffineTransform.transform;
+  t.translateXByYBy(W - img.extent.size.width - W * 0.03, 0);
+  f = $.CIFilter.filterWithName('CIAffineTransform');
+  f.setValueForKey(img, 'inputImage'); f.setValueForKey(t, 'inputTransform'); img = f.outputImage;
+  f = $.CIFilter.filterWithName('CIColorMatrix');
+  f.setValueForKey(img, 'inputImage');
+  f.setValueForKey($.CIVector.vectorWithXYZW(0, 0, 0, A), 'inputAVector'); img = f.outputImage;
+  const bg = $.CIImage.imageWithColor($.CIColor.colorWithRedGreenBlue(11/255, 10/255, 20/255)).imageByCroppingToRect($.CGRectMake(0, 0, W, H));
+  f = $.CIFilter.filterWithName('CISourceOverCompositing');
+  f.setValueForKey(img, 'inputImage'); f.setValueForKey(bg, 'inputBackgroundImage');
+  const out = f.outputImage.imageByCroppingToRect($.CGRectMake(0, 0, W, H));
+  const rep = $.NSBitmapImageRep.alloc.initWithCIImage(out);
+  rep.representationUsingTypeProperties(4, $({})).writeToFileAtomically(dst, true);
+  return 'OK: ' + dst + ' (' + W + 'x' + H + ')';
+}

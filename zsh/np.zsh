@@ -11,7 +11,7 @@ __np_title() {
 
 __cd_precmd() {
   print -rn -- "${(%):-%~}" > $__CD_PWDF
-  [[ -s $__CD_NPF ]] || printf '\e]2;%s\a' "📂 ${(%):-%~}"
+  [[ -s $__CD_NPF ]] || printf '\e]2;%s\a' "$(cat ~/.cache/slay-icon 2>/dev/null || print 📂) ${(%):-%~}"
 }
 __cd_exit() { rm -f $__CD_PWDF $__CD_NPF }
 
@@ -21,11 +21,11 @@ __np_loop() {
     t=$(__np_title)
     if [[ -n $t ]]; then
       print -rn -- 1 > $__CD_NPF
-      printf '\e]2;%s\a' "$t" > /dev/tty
+      [[ -e ~/.cache/slay-app.${TTY:t} ]] || printf '\e]2;%s\a' "$t" > /dev/tty
     else
       : > $__CD_NPF
       d=$(cat $__CD_PWDF 2>/dev/null)
-      printf '\e]2;%s\a' "📂 ${d:-~}" > /dev/tty
+      [[ -e ~/.cache/slay-app.${TTY:t} ]] || printf '\e]2;%s\a' "$(cat ~/.cache/slay-icon 2>/dev/null || print 📂) ${d:-~}" > /dev/tty
     fi
     sleep 2
   done

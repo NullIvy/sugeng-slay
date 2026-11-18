@@ -1,0 +1,20 @@
+Ship small, ship often, sleep well.
+Done is a feature. Perfect is a backlog item.
+Read the error message. Then read it again.
+Clarity beats cleverness every single time.
+Automate the boring, think about the hard.
+Measure twice, deploy once.
+Every outage is a lesson with a timestamp.
+Good logs today save a weekend tomorrow.
+Make it work, make it right, make it fast.
+Your future self is your most important user.
+Small commits, big confidence.
+Document the why, the code shows the how.
+Security is a habit, not a checkbox.
+Test in staging, not in production.
+Focus on the next right step.
+Backups you never tested are only hopes.
+Leave the codebase better than you found it.
+Simple systems fail less and recover faster.
+Ask early. Debug together. Win as a team.
+Progress over perfection, every sprint.
