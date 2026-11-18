@@ -173,7 +173,7 @@ case $1 in
   mission)
     c=~/.cache/slay-mission
     if [[ ! -s $c ]] || (( $(date +%s) - $(stat -f %m $c) > 300 )); then
-      ( ev=''; command -v icalBuddy >/dev/null && ev=$(icalBuddy -n -nc -nrd -ea -li 1 -iep "title,datetime" -po "datetime,title" -ps "| |" -df "" -tf "%H:%M" eventsToday+1 2>/dev/null | head -1 | sed 's/ - [0-9:]*//; s/^ *//')
+      ( ev=''; command -v icalBuddy >/dev/null && ev=$(icalBuddy -b "" -n -nc -nrd -ea -li 1 -iep "title,datetime" -po "datetime,title" -ps "| |" -df "" -tf "%H:%M" eventsToday+1 2>/dev/null | head -1 | sed 's/ - [0-9:]*//; s/^ *//')
         rm=$(icalBuddy -nc -b "" -npn uncompletedTasks 2>/dev/null | grep -c . )
         print -r -- "${ev}|${rm}" > $c.tmp && mv $c.tmp $c ) &!
     fi
@@ -192,6 +192,6 @@ case $1 in
     x=~/.cache/slay-xp; [[ -s $x ]] || { printf '%scalculating XP…%s' "$D" "$X"; exit; }
     read -r tot st < $x; lv=$(( int(sqrt(tot / 5.0)) + 1 )); lo=$(( (lv - 1) ** 2 * 5 )); hi=$(( lv ** 2 * 5 ))
     pc=$(( (tot - lo) * 100 / (hi - lo) )); f=$(( pc / 17 )); e=$(( 6 - f ))
-    fl=''; (( st > 0 )) && fl=" ${D}· ${Y}🔥 ${st}-day streak"
+    fl=''; (( st > 0 )) && fl=" ${D}· ${Y}🔥 ${st}d"
     printf '%sLVL %d %s%s%s%s %s%d%%%s %s· %s%s commits%s' "$P" "$lv" "$P" "${(l:$f::▰:)}" "$D" "${(l:$e::▱:)}" "$N" "$pc" "$fl" "$D" "$V" "$tot" "$X" ;;
 esac

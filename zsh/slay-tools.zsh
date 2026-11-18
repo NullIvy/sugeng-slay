@@ -41,7 +41,7 @@ slay-release() {
     git status --short; read -q "?Lanjut rilis ${ver}? (y/n) " || { print; exit 0; }; print
     git add . && git commit -qm "feat: $ver $title" && git push -q && git tag -a $ver -m "$title" && git push -q origin $ver
     local -a ex; [[ -n $notes ]] && ex=(--notes "$notes")
-    gh release create $ver --title "$ver — $title" --latest --generate-notes $ex
+    gh release create $ver --title "$ver $title" --latest --generate-notes $ex
   )
 }
 # <<< sugeng-slay tools v2.2
