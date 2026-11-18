@@ -27,6 +27,6 @@ line1+="${sep}${V}$(date +%H:%M)${X}"
 line2="${L}CTX${X} $(bar "$ctx") ${D}$(k $used)/$(k ${size:-0})${X}"
 [[ -n $h5 ]] && line2+="${sep}${L}5H${X} $(bar "$h5")$(left $h5r)"
 [[ -n $d7 ]] && line2+="${sep}${L}7D${X} $(bar "$d7")$(left $d7r)"
-[[ -z $h5 && -z $d7 ]] && line2+="${sep}${D}quota: muncul setelah pesan pertama${X}"
+[[ -z $h5 && -z $d7 ]] && line2+="${sep}${D}5H · 7D ⋯ standby${X}"
 [[ -n "$h5$d7" ]] && { mkdir -p ~/.cache; print -r -- "{\"h5\":${h5:-null},\"h5r\":${h5r:-0},\"d7\":${d7:-null},\"d7r\":${d7r:-0},\"t\":$(date +%s)}" > ~/.cache/slay-claude.json; }
 print -r -- "$line1"; print -r -- "$line2"

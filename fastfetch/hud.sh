@@ -140,7 +140,7 @@ case $1 in
     ram=$(memory_pressure 2>/dev/null | awk '/free percentage/{gsub("%","",$NF); print 100-$NF}')
     tmp=$(zsh ~/.config/fastfetch/temp.sh 2>/dev/null | perl -ne 'print $1 if /(\d+)(?:\.\d+)?\s*°C/')
     g=$(route -n get default 2>/dev/null | awk '/gateway:/{print $2}')
-    pg=$(ping -c1 -t1 $g 2>/dev/null | awk -F'time=' '/time=/{printf "%d",$2}'); pn=$(ping -c1 -t2 1.1.1.1 2>/dev/null | awk -F'time=' '/time=/{printf "%d",$2}')
+    pg=$(ping -c1 -t1 $g 2>/dev/null | awk -F'time=' '/time=/{printf "%d",$2}'); pn=$( { ping -c1 -t2 1.1.1.1 || ping -c1 -t2 8.8.8.8; } 2>/dev/null | awk -F'time=' '/time=/{printf "%d",$2; exit}')
     print "$(date +%s),${cpu:-0},${ram:-0},${tmp:-0},${pg:--1},${pn:--1}" >> $m; tail -n 60 $m > $m.tmp && mv $m.tmp $m
     b=~/.cache/slay-brew; if [[ ! -s $b ]] || (( $(date +%s) - $(stat -f %m $b) > 3600 )); then
       print "$(/opt/homebrew/bin/brew list --formula 2>/dev/null | wc -l | tr -d ' ') $(/opt/homebrew/bin/brew list --cask 2>/dev/null | wc -l | tr -d ' ')" > $b; fi
