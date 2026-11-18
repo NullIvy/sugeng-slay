@@ -174,7 +174,7 @@ case $1 in
     c=~/.cache/slay-mission
     if [[ ! -s $c ]] || (( $(date +%s) - $(stat -f %m $c) > 300 )); then
       ( ev=''; command -v icalBuddy >/dev/null && ev=$(icalBuddy -n -nc -nrd -ea -li 1 -iep "title,datetime" -po "datetime,title" -ps "| |" -df "" -tf "%H:%M" eventsToday+1 2>/dev/null | head -1 | sed 's/ - [0-9:]*//; s/^ *//')
-        rm=$(osascript -e 'tell application "Reminders" to count (reminders whose completed is false)' 2>/dev/null)
+        rm=$(icalBuddy -nc -b "" -npn uncompletedTasks 2>/dev/null | grep -c . )
         print -r -- "${ev}|${rm}" > $c.tmp && mv $c.tmp $c ) &!
     fi
     [[ -s $c ]] || { printf '%ssyncing calendar…%s' "$D" "$X"; exit; }
@@ -182,7 +182,7 @@ case $1 in
     command -v icalBuddy >/dev/null || ev='brew install ical-buddy'
     printf '%s◷ %s%s %s· %s☑ %s todo%s' "$C" "$V" "${ev:-no meetings ahead}" "$D" "$Y" "${rm:-0}" "$X" ;;
   project)
-    git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { printf '%s○ %sidle %s· cd ke repo Git untuk melihat status%s' "$D" "$V" "$D" "$X"; exit; }
+    git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { printf '%s○ %sidle %s· cd ke repo Git%s' "$D" "$V" "$D" "$X"; exit; }
     br=$(git branch --show-current); ch=$(git status --porcelain | wc -l | tr -d ' ')
     ab=$(git rev-list --left-right --count @{u}...HEAD 2>/dev/null); bh=${ab%%[[:space:]]*}; ah=${ab##*[[:space:]]}
     lm=$(git log -1 --format='%s' 2>/dev/null); (( ${#lm} > 16 )) && lm="${lm[1,15]}…"; lt=$(git log -1 --format='%cr' 2>/dev/null | sed 's/ ago//; s/ hours\{0,1\}/h/; s/ minutes\{0,1\}/m/; s/ days\{0,1\}/d/')
