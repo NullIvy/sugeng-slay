@@ -40,7 +40,12 @@ slay-release() {
     [[ -z $(git status --porcelain) ]] && { print "• Tidak ada perubahan"; exit 0; }
     git status --short; read -q "?Lanjut rilis ${ver}? (y/n) " || { print; exit 0; }; print
     git add . && git commit -qm "feat: $ver $title" && git push -q && git tag -a $ver -m "$title" && git push -q origin $ver
-    local -a ex; [[ -n $notes ]] && ex=(--notes "$notes")
+    local -a ex; [[ -n $notes ]] && ex=(--notes "$(printf "## Sugeng Slay %s %s\n\n%s\n" "$ver" "$title" "$notes")")
+
+$notes
+
+### Perubahan
+- $notes")
     gh release create $ver --title "$ver $title" --latest --generate-notes $ex
   )
 }
@@ -56,13 +61,6 @@ fastfetch() {
   printf '\e]2;%s %s\a' "$(< ~/.cache/slay-icon)" "${PWD/#$HOME/~}"
 }
 # <<< sugeng-slay icon v2.2b
-# >>> sugeng-slay brew bar
-brew() {
-  if [[ $1 == (install|upgrade|reinstall|fetch) ]]; then
-    command brew "$@" 2> >(perl -e '$|=1; $/="\r"; while(<STDIN>){ s/(={4,}|#{4,})(?!>)/"\e[38;2;169;156;255m".("▰" x length($1))."\e[0m"/ge; print STDERR $_ }')
-  else command brew "$@"; fi
-}
-# <<< sugeng-slay brew bar
 # >>> sugeng-slay work panel v3.1
 _slay_worklogo() {
   local E=$'\e'
@@ -111,3 +109,10 @@ fastfetch() {
   printf '\e]2;%s %s\a' "$(< ~/.cache/slay-icon)" "${PWD/#$HOME/~}"
 }
 # <<< sugeng-slay work panel v3.1
+# >>> sugeng-slay brew bar
+brew() {
+  if [[ $1 == (install|upgrade|reinstall|fetch) ]]; then
+    command brew "$@" 2> >(perl -e '$|=1; $/="\r"; while(<STDIN>){ s/(={4,}|#{4,})/"\e[38;2;169;156;255m"."▰" x length($1)."\e[0m"/ge; print STDERR $_ }')
+  else command brew "$@"; fi
+}
+# <<< sugeng-slay brew bar
