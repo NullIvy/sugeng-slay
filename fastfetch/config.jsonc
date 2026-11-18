@@ -1,0 +1,68 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": { "type": "kitty-direct", "source": "__HOME__/.config/fastfetch/logo-cyber.png", "width": 76, "height": 38,
+            "padding": { "top": 3, "left": 2, "right": 3 } },
+  "display": {
+    "separator": " ",
+    "bar": { "char": { "elapsed": "━", "total": "─" }, "border": { "left": "", "right": "" },
+             "color": { "total": "38;2;60;52;100" }, "width": 14 },
+    "percent": { "type": ["num", "bar"], "green": 60, "yellow": 85,
+      "color": { "green": "38;2;94;234;242", "yellow": "38;2;242;196;109", "red": "38;2;255;77;109" } }
+  },
+  "modules": [
+    { "type": "title", "format": "   \u001b[38;2;214;211;245mHello \u001b[1;38;2;94;234;242m{user-name}\u001b[22;38;2;214;211;245m, I'm \u001b[1;38;2;169;156;255m{host-name}\u001b[0m" },
+    { "type": "command", "key": " ", "text": "zsh __HOME__/.config/fastfetch/greet.sh", "format": "   \u001b[3;38;2;130;120;190m{1}\u001b[0m" },
+    "break",
+
+    { "type": "custom", "format": "\u001b[38;2;169;156;255m\u001b7╭────────────────────────────────────────────────────────────╮\u001b8\u001b[21C ◆◆◆ \u001b[1m  SYSTEM  \u001b[22m ◆◆◆ \u001b[0m" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;169;156;255m│\u001b8\u001b[38;2;169;156;255m│  \uf179  \u001b[1;38;2;233;230;255mmacOS     \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh sysver" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;169;156;255m│\u001b8\u001b[38;2;169;156;255m│  \uf132  \u001b[1;38;2;233;230;255mPatch     \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh patch" },
+    { "type": "uptime",  "key": "\u001b7\u001b[61C\u001b[38;2;169;156;255m│\u001b8\u001b[38;2;169;156;255m│  \uf017  \u001b[1;38;2;233;230;255mUptime    \u001b[0m" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;169;156;255m│\u001b8\u001b[38;2;169;156;255m│  \uf01e  \u001b[1;38;2;233;230;255mUpdate    \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/stat.sh update" },
+    { "type": "custom", "format": "\u001b[38;2;169;156;255m╰────────────────────────────────────────────────────────────╯\u001b[0m" },
+
+    { "type": "custom", "format": "\u001b[38;2;255;77;109m\u001b7╭────────────────────────────────────────────────────────────╮\u001b8\u001b[21C ◆◆◆ \u001b[1m    RIG   \u001b[22m ◆◆◆ \u001b[0m" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;255;77;109m│\u001b8\u001b[38;2;255;77;109m│  \uf109  \u001b[1;38;2;233;230;255mMachine   \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh hw machine" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;255;77;109m│\u001b8\u001b[38;2;255;77;109m│  \uf02a  \u001b[1;38;2;233;230;255mModel     \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh hw model" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;255;77;109m│\u001b8\u001b[38;2;255;77;109m│  \uf2db  \u001b[1;38;2;233;230;255mSpecs     \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh hw specs" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;255;77;109m│\u001b8\u001b[38;2;255;77;109m│  \uf108  \u001b[1;38;2;233;230;255mDisplay   \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh hw display" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;255;77;109m│\u001b8\u001b[38;2;255;77;109m│  \uf487  \u001b[1;38;2;233;230;255mLoadout   \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh loadout" },
+    { "type": "custom", "format": "\u001b[38;2;255;77;109m╰────────────────────────────────────────────────────────────╯\u001b[0m" },
+
+    { "type": "custom", "format": "\u001b[38;2;242;196;109m\u001b7╭────────────────────────────────────────────────────────────╮\u001b8\u001b[21C ◆◆◆ \u001b[1m  STATUS  \u001b[22m ◆◆◆ \u001b[0m" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;242;196;109m│\u001b8\u001b[38;2;242;196;109m│  \uf0e4  \u001b[1;38;2;233;230;255mRAM       \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/stat.sh ram" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;242;196;109m│\u001b8\u001b[38;2;242;196;109m│  \uf0a0  \u001b[1;38;2;233;230;255mStorage   \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/stat.sh disk" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;242;196;109m│\u001b8\u001b[38;2;242;196;109m│               ", "text": "zsh __HOME__/.config/fastfetch/seg.sh bar" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;242;196;109m│\u001b8\u001b[38;2;242;196;109m│               ", "text": "zsh __HOME__/.config/fastfetch/seg.sh legend" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;242;196;109m│\u001b8\u001b[38;2;242;196;109m│  \uf240  \u001b[1;38;2;233;230;255mBattery   \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/stat.sh batt" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;242;196;109m│\u001b8\u001b[38;2;242;196;109m│  \uf2c9  \u001b[1;38;2;233;230;255mTemp      \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh temp" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;242;196;109m│\u001b8\u001b[38;2;242;196;109m│  \uf085  \u001b[1;38;2;233;230;255mProcs     \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh procs" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;242;196;109m│\u001b8\u001b[38;2;242;196;109m│  \uf201  \u001b[1;38;2;233;230;255mTrend     \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh trend" },
+    { "type": "custom", "format": "\u001b[38;2;242;196;109m╰────────────────────────────────────────────────────────────╯\u001b[0m" },
+
+
+    { "type": "custom", "format": "\u001b[38;2;125;220;160m\u001b7╭────────────────────────────────────────────────────────────╮\u001b8\u001b[21C ◆◆◆ \u001b[1m  COMMS   \u001b[22m ◆◆◆ \u001b[0m" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;125;220;160m│\u001b8\u001b[38;2;125;220;160m│  \uf1eb  \u001b[1;38;2;233;230;255mWi-Fi     \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh wifi" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;125;220;160m│\u001b8\u001b[38;2;125;220;160m│  \uf0ac  \u001b[1;38;2;233;230;255mIP        \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh ip" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;125;220;160m│\u001b8\u001b[38;2;125;220;160m│  \uf0ec  \u001b[1;38;2;233;230;255mGateway   \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh gw" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;125;220;160m│\u001b8\u001b[38;2;125;220;160m│  \uf233  \u001b[1;38;2;233;230;255mDNS       \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh dns" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;125;220;160m│\u001b8\u001b[38;2;125;220;160m│  \uf023  \u001b[1;38;2;233;230;255mVPN       \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh vpn" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;125;220;160m│\u001b8\u001b[38;2;125;220;160m│  \uf1da  \u001b[1;38;2;233;230;255mLatency   \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh ping" },
+    { "type": "custom", "format": "\u001b[38;2;125;220;160m╰────────────────────────────────────────────────────────────╯\u001b[0m" },
+
+    { "type": "custom", "format": "\u001b[38;2;255;121;198m\u001b7╭────────────────────────────────────────────────────────────╮\u001b8\u001b[21C ◆◆◆ \u001b[1m  SHIELD  \u001b[22m ◆◆◆ \u001b[0m" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;255;121;198m│\u001b8\u001b[38;2;255;121;198m│  \uf132  \u001b[1;38;2;233;230;255mArmor     \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh armor" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;255;121;198m│\u001b8\u001b[38;2;255;121;198m│  \uf023  \u001b[1;38;2;233;230;255mGuards    \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh guards" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;255;121;198m│\u001b8\u001b[38;2;255;121;198m│  \uf188  \u001b[1;38;2;233;230;255mXProtect  \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh xp" },
+    { "type": "custom", "format": "\u001b[38;2;255;121;198m╰────────────────────────────────────────────────────────────╯\u001b[0m" },
+    { "type": "custom", "format": "\u001b[38;2;255;170;90m\u001b7╭────────────────────────────────────────────────────────────╮\u001b8\u001b[21C ◆◆◆ \u001b[1m   OPS    \u001b[22m ◆◆◆ \u001b[0m" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;255;170;90m│\u001b8\u001b[38;2;255;170;90m│  \uf0e7  \u001b[1;38;2;233;230;255mAI        \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh ai" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;255;170;90m│\u001b8\u001b[38;2;255;170;90m│  \uf073  \u001b[1;38;2;233;230;255mMission   \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh mission" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;255;170;90m│\u001b8\u001b[38;2;255;170;90m│  \ue725  \u001b[1;38;2;233;230;255mProject   \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh project" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;255;170;90m│\u001b8\u001b[38;2;255;170;90m│  \uf091  \u001b[1;38;2;233;230;255mXP        \u001b[0m", "text": "zsh __HOME__/.config/fastfetch/hud.sh level" },
+    { "type": "custom", "format": "\u001b[38;2;255;170;90m╰────────────────────────────────────────────────────────────╯\u001b[0m" },
+    { "type": "custom", "format": "\u001b[38;2;94;234;242m\u001b7╭────────────────────────────────────────────────────────────╮\u001b8\u001b[21C ◆◆◆ \u001b[1m BRIEFING \u001b[22m ◆◆◆ \u001b[0m" },
+    { "type": "command", "key": "\u001b7\u001b[61C\u001b[38;2;94;234;242m│\u001b8\u001b[38;2;94;234;242m│  ❝ ", "text": "zsh __HOME__/.config/fastfetch/hud.sh quote", "format": "\u001b[1;38;2;233;230;255m{1}\u001b[22;38;2;94;234;242m ❞\u001b[0m" },
+    { "type": "command", "key": "\u001b[38;2;94;234;242m╰─", "text": "zsh __HOME__/.config/fastfetch/hud.sh hudframe", "format": "{1}" }
+  ]
+}
