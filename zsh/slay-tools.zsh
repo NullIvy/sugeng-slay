@@ -1,10 +1,4 @@
 # >>> sugeng-slay tools v2.2
-fastfetch() {
-  if [[ $(zsh ~/.config/fastfetch/hud.sh mode) == work ]]; then
-    command fastfetch --logo-type builtin --logo macos --logo-padding-top 15 --logo-padding-left 10 --logo-color-1 '38;2;169;156;255' --logo-color-2 '38;2;169;156;255' \
-      --logo-color-3 '38;2;94;234;242' --logo-color-4 '38;2;94;234;242' --logo-color-5 '38;2;255;121;198' --logo-color-6 '38;2;255;121;198' "$@"
-  else command fastfetch "$@"; fi
-}
 _slay_mode() { mkdir -p ~/.cache; print $1 > ~/.cache/slay-mode; command clear 2>/dev/null; printf '\e_Ga=d\e\\'; fastfetch; }
 work() { _slay_mode work; }
 play() { _slay_mode play; }
@@ -29,8 +23,8 @@ slay-release() {
     git pull -q --rebase --autostash
     mkdir -p ghostty fastfetch zsh starship cava btop claude
     cp ~/.config/ghostty/* ghostty/ 2>/dev/null
-    cp ~/.config/fastfetch/{*.jsonc,*.sh,*.js,*.txt} fastfetch/ 2>/dev/null; rm -f fastfetch/*.bak*(N)
-    cp ~/.config/zsh/*.zsh ~/.config/zsh/*.pl zsh/ 2>/dev/null
+    cp ~/.config/fastfetch/*.{jsonc,sh,js,txt}(N) fastfetch/ 2>/dev/null; rm -f fastfetch/*.bak*(N)
+    cp ~/.config/zsh/*.{zsh,pl}(N) zsh/ 2>/dev/null
     cp ~/.config/starship.toml starship/ 2>/dev/null; cp ~/.config/cava/* cava/ 2>/dev/null
     cp ~/.config/btop/themes/cyberdeck.theme btop/ 2>/dev/null; cp ~/.claude/statusline.sh claude/ 2>/dev/null
     grep -rlI "$HOME" . --exclude-dir=.git | xargs sed -i '' "s|$HOME|__HOME__|g" 2>/dev/null
@@ -40,27 +34,11 @@ slay-release() {
     [[ -z $(git status --porcelain) ]] && { print "• Tidak ada perubahan"; exit 0; }
     git status --short; read -q "?Lanjut rilis ${ver}? (y/n) " || { print; exit 0; }; print
     git add . && git commit -qm "feat: $ver $title" && git push -q && git tag -a $ver -m "$title" && git push -q origin $ver
-    local -a ex; [[ -n $notes ]] && ex=(--notes "$(printf "## Sugeng Slay %s %s\n\n%s\n" "$ver" "$title" "$notes")")
-
-$notes
-
-### Perubahan
-- $notes")
+    local -a ex; [[ -n $notes ]] && ex=(--notes "$(printf '## Sugeng Slay %s %s\n\n%s\n' "$ver" "$title" "$notes")")
     gh release create $ver --title "$ver $title" --latest --generate-notes $ex
   )
 }
 # <<< sugeng-slay tools v2.2
-# >>> sugeng-slay icon v2.2b
-fastfetch() {
-  local m=$(zsh ~/.config/fastfetch/hud.sh mode); mkdir -p ~/.cache
-  [[ $m == work ]] && print '💼' > ~/.cache/slay-icon || print '🎮' > ~/.cache/slay-icon
-  if [[ $m == work ]]; then
-    command fastfetch --logo-type builtin --logo macos --logo-padding-top 15 --logo-padding-left 10 --logo-color-1 '38;2;169;156;255' --logo-color-2 '38;2;169;156;255' \
-      --logo-color-3 '38;2;94;234;242' --logo-color-4 '38;2;94;234;242' --logo-color-5 '38;2;255;121;198' --logo-color-6 '38;2;255;121;198' "$@"
-  else command fastfetch "$@"; fi
-  printf '\e]2;%s %s\a' "$(< ~/.cache/slay-icon)" "${PWD/#$HOME/~}"
-}
-# <<< sugeng-slay icon v2.2b
 # >>> sugeng-slay work panel v3.1
 _slay_worklogo() {
   local E=$'\e'
