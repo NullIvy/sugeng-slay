@@ -37,6 +37,7 @@ chmod +x ~/.config/fastfetch/*.sh ~/.claude/statusline.sh
 cp ~/.config/fastfetch/config-compact.jsonc ~/.config/fastfetch/config.jsonc
 
 c "Mengatur zsh"
+[[ -d ~/.config/zsh/fzf-tab ]] || git clone -q --depth 1 https://github.com/Aloxaf/fzf-tab ~/.config/zsh/fzf-tab
 touch ~/.zshrc ~/.hushlogin
 grep -q 'sugeng-slay core' ~/.zshrc || { print "\n# >>> sugeng-slay core"; cat ~/.config/zsh/zshrc.cyberdeck; print "# <<< sugeng-slay core"; } >> ~/.zshrc
 grep -q 'slay-launch.zsh' ~/.zshrc || print 'source ~/.config/zsh/slay-launch.zsh' >> ~/.zshrc
